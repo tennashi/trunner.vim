@@ -20,3 +20,10 @@ call dein#add('tennashi/trunner.vim')
 `:Trunner` pop up the task list and execute the selected task.
 
 ![trunner](https://user-images.githubusercontent.com/10219626/74098895-babb4480-4b60-11ea-830b-38aa161fabd1.gif)
+
+## Supported taskrunner or build systems
+
+* Make
+
+## License
+MIT
