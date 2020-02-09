@@ -1,6 +1,7 @@
 scriptencoding utf-8
 
 let s:task_list = []
+let s:target_list = ['make']
 
 function! trunner#setup_task_list() abort
   let s:task_list = trunner#list_task()
@@ -22,7 +23,10 @@ function! s:menu_list() abort
 endfunction
 
 function! trunner#list_task() abort
-  let l:list = trunner#make#list_task()
+  let l:list = []
+  for l:t in s:target_list
+    let l:list += trunner#{l:t}#list_task()
+  endfor
   return l:list
 endfunction
 
