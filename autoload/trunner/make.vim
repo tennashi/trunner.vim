@@ -1,7 +1,7 @@
 let s:makefile_path = ''
 
 function! trunner#make#list_task() abort
-  let s:makefile_path = s:find_makefile()
+  let s:makefile_path = findfile('Makefile', '.;')
   if s:makefile_path ==# ''
     return []
   endif
@@ -18,19 +18,4 @@ endfunction
 
 function! trunner#make#execute(task) abort
     call term_start(['make', '-f', s:makefile_path, a:task])
-endfunction
-
-function! s:find_makefile() abort
-  try
-    let l:path = findfile('Makefile', '.;')
-    if l:path ==# ''
-      throw 'not found'
-    endif
-    return l:path
-  catch 'not found'
-    echohl ErrorMsg
-    redraw
-    echo '[trunner] Makefile is not found.'
-    echohl None
-  endtry
 endfunction
