@@ -4,6 +4,9 @@ let s:task_list = []
 
 function! trunner#list_command() abort
   let s:task_list = trunner#list_task()
+  if s:task_list ==# []
+    return
+  endif
   call popup_menu(s:menu_list(), {
   \  'callback': function('s:selected'),
   \})
