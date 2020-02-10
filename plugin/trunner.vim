@@ -10,7 +10,7 @@ let g:loaded_trunner = 1
 
 command! Trunner call trunner#list_command()
 
-nnoremap <Plug>(trunner-run) :<C-u>call trunner#list_command()
+nnoremap <Plug>(trunner-run) :<C-u>call trunner#list_command()<CR>
 
 augroup PluginTrunner
   autocmd!
