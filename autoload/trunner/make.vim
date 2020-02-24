@@ -19,4 +19,3 @@ function! trunner#make#list_task() abort
   \ }
   \})
 endfunction
-
