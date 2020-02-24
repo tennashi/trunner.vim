@@ -12,10 +12,11 @@ function! trunner#make#list_task() abort
   \ && v !~# '^FORCE' 
   \ && v !=# '' 
   \}), {i, v ->
-  \ { 'command': 'make', 'task': trim(matchstr(v, '^.*:'), ':') }
+  \ {
+  \   'command': 'make',
+  \   'task': trim(matchstr(v, '^.*:'), ':'),
+  \   'raw_command': ['make', '-f', s:makefile_path, trim(matchstr(v, '^.*:'), ':')]
+  \ }
   \})
 endfunction
 
-function! trunner#make#execute(task) abort
-    call term_start(['make', '-f', s:makefile_path, a:task])
-endfunction

@@ -2,6 +2,7 @@ scriptencoding utf-8
 
 let s:task_list = []
 let s:target_list = ['make']
+let s:trunner_winid = 0
 
 function! trunner#setup_task_list() abort
   let s:task_list = trunner#list_task()
@@ -12,9 +13,29 @@ function! trunner#list_command() abort
     call trunner#error_msg('[trunner] task not found')
     return
   endif
-  call popup_menu(s:menu_list(), {
+  let s:trunner_winid = popup_menu(s:menu_list(), {
   \  'callback': function('s:selected'),
+  \  'filter': function('s:filter'),
   \})
+endfunction
+
+function! s:filter(id, key) abort
+  if a:key ==# 'e'
+    return s:edit_raw_command(a:id)
+  endif
+  return popup_filter_menu(a:id, a:key)
+endfunction
+
+function! s:edit_raw_command(id) abort
+    let l:cur_line = line('.', a:id)
+    let l:cur_cmd = join(s:task_list[l:cur_line - 1]['raw_command'])
+    let l:raw_cmd = input('exec: ', l:cur_cmd)
+    if l:raw_cmd ==# ''
+      return v:true
+    endif
+    let s:task_list[l:cur_line - 1]['raw_command'] = split(l:raw_cmd)
+    call popup_close(s:trunner_winid, l:cur_line)
+    return v:true
 endfunction
 
 function! s:menu_list() abort
@@ -39,7 +60,7 @@ endfunction
 
 function! trunner#run(selected_idx) abort
   let l:cmd = s:task_list[a:selected_idx]
-  call trunner#{l:cmd['command']}#execute(l:cmd['task'])
+  call term_start(l:cmd['raw_command'])
 endfunction
 
 function! trunner#error_msg(msg) abort
