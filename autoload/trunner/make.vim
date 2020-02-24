@@ -1,4 +1,5 @@
 let s:makefile_path = ''
+let g:trunner#make#default_options = []
 
 function! trunner#make#list_task() abort
   let s:makefile_path = findfile('Makefile', '.;')
@@ -15,7 +16,7 @@ function! trunner#make#list_task() abort
   \ {
   \   'command': 'make',
   \   'task': trim(matchstr(v, '^.*:'), ':'),
-  \   'raw_command': ['make', '-f', s:makefile_path, trim(matchstr(v, '^.*:'), ':')]
+  \   'raw_command': expand(['make', '-f', s:makefile_path], add(g:trunner#make#default_options, trim(matchstr(v, '^.*:'), ':'))),
   \ }
   \})
 endfunction
