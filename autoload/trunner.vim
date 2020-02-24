@@ -5,6 +5,9 @@ let s:target_list = ['make']
 let s:trunner_winid = 0
 
 function! trunner#setup_task_list() abort
+  if bufname('%') =~ "://"
+    return
+  endif
   let l:ft = getbufvar('%', '&filetype')
   if l:ft ==# 'go'
     let s:target_list = add(s:target_list, 'go')
