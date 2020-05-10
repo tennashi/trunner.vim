@@ -10,6 +10,7 @@ function! trunner#make#list_task() abort
   \ && v !~# '.=.*' 
   \ && v !~# '^\.\?PHONY' 
   \ && v !~# '^FORCE' 
+  \ && v !~# '^#' 
   \ && v !=# '' 
   \}), {i, v ->
   \ {
